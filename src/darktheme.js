@@ -19,15 +19,15 @@ function onMessage(message)
     }
     else if(message.type === "toggle")
     {
-        toggleFilter(message.enabled);
+        toggleFilter(message.enabled, message.intensity);
     }
 }
 
-function toggleFilter(enabled)
+function toggleFilter(enabled, intensity)
 {
     // apply the dark theme
     var filter = "";
-    if(enabled){filter = "invert(1) hue-rotate(180deg)";}
+    if(enabled){filter = "invert(" + intensity + ") hue-rotate(" + 180*intensity + "deg)";}
 
     document.querySelector(':root').style['filter'] = filter;
     let notInvertedTags = ['img', 'video', 'svg', "iframe[class=youtube-video]"];
