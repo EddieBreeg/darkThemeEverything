@@ -15,5 +15,5 @@
         "default_icon": "img/sun.png",
         "default_popup": "options.html"
     },
-    "permissions": ["tabs"]
+    "permissions": ["tabs", "storage"]
 }
