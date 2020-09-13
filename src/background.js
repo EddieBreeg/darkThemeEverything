@@ -1,4 +1,4 @@
-chrome.runtime.onMessage.addListener(onMessage);
+firefox.runtime.onMessage.addListener(onMessage);
 
 let extensionEnabled = true;
 
@@ -21,7 +21,7 @@ function onMessage(message, sender, reply)
     }
     else if(message.type==="getExtensionStatus")
     {
-        chrome.runtime.sendMessage({
+        firefox.runtime.sendMessage({
             type: "extensionStatus",
             enabled: extensionEnabled
         });
@@ -33,7 +33,7 @@ function onMessage(message, sender, reply)
             url: message.url,
             enabled: localStorage[message.url]==="true" && extensionEnabled
         };
-        chrome.runtime.sendMessage(response);
+        firefox.runtime.sendMessage(response);
     }
     else if(message.type==="setExtensionStatus")
     {
@@ -46,8 +46,8 @@ function onMessage(message, sender, reply)
 }
 function sendToCurrentTab(message)
 {
-    chrome.tabs.query({active: true}, tabs=>{
+    firefox.tabs.query({active: true}, tabs=>{
         console.log(tabs[0]);
-        chrome.tabs.sendMessage(tabs[0].id, message);
+        firefox.tabs.sendMessage(tabs[0].id, message);
     });
 }

@@ -1,11 +1,11 @@
-chrome.runtime.onMessage.addListener(onMessage);
+firefox.runtime.onMessage.addListener(onMessage);
 
 let request = {
     type: "amIEnabled",
     url: document.location.origin
 };
 // asks for status at load time
-chrome.runtime.sendMessage(request);
+firefox.runtime.sendMessage(request);
 
 function onMessage(message)
 {
@@ -15,7 +15,7 @@ function onMessage(message)
         // sending the tab domain name
         console.log('sending tab info');
         
-        chrome.runtime.sendMessage({"type": "tabInfo", "url": document.location.origin});
+        firefox.runtime.sendMessage({"type": "tabInfo", "url": document.location.origin});
     }
     else if(message.type === "toggle")
     {
