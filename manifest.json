@@ -4,20 +4,20 @@
     "version": "1.0.0",
     "author": "Eddie Breeg",
     "icons": {
-        "48": "img/sun.png"
+        "48": "/../img/sun.png"
     },
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["chrome/darktheme.js"]
+            "js": ["darktheme.js"]
         }
     ],
     "background": {
-        "scripts": ["chrome/background.js"]
+        "scripts": ["background.js"]
     },
     "browser_action": {
-        "default_icon": "img/sun.png",
-        "default_popup": "options.html"
+        "default_icon": "/../img/sun.png",
+        "default_popup": "/../options.html"
     },
     "permissions": ["storage", "tabs"]
 }
