@@ -2,3 +2,5 @@
 *.afdesign
 *.svg
 *.crx
+*.css.map
+popup.css

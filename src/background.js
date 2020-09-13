@@ -9,11 +9,13 @@ function onMessage(message, sender, reply)
     {
         if(localStorage.key(message.url)==undefined)
         {
-            localStorage.setItem(message.url, false);
+            localStorage.setItem(message.url, JSON.stringify({enabled: false, intensity: 1}));
         }
+        var status = JSON.parse(localStorage[message.url]);
         var response = {
             type: "toggle",
-            enabled: localStorage[message.url]==="true" && extensionEnabled
+            enabled: status.enabled && extensionEnabled,
+            intensity: status.intensity
         };
         console.log(response);
         sendToCurrentTab(response);
@@ -28,10 +30,12 @@ function onMessage(message, sender, reply)
     }
     else if(message.type==="tabInfo")
     {
+        var status = JSON.parse(localStorage[message.url]);
         var response={
             type: "tabStatus",
             url: message.url,
-            enabled: localStorage[message.url]==="true" && extensionEnabled
+            enabled: status.enabled && extensionEnabled,
+            intensity: status.intensity
         };
         chrome.runtime.sendMessage(response);
     }
@@ -41,7 +45,7 @@ function onMessage(message, sender, reply)
     }
     else if(message.type==="setTabStatus")
     {
-        localStorage[message.url] = message.enabled;
+        localStorage[message.url] = JSON.stringify({enabled: message.enabled, intensity: message.intensity});
     }
 }
 function sendToCurrentTab(message)

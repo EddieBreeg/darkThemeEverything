@@ -2,7 +2,7 @@
     <head>
         <meta charset="utf-8">
         <title>Dark Theme Everything</title>
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="slider.css">
         <link rel="stylesheet" href="popup.scss">
     </head>
     <body>
@@ -18,8 +18,13 @@
                 <input type="checkbox" id="second-switch">
                 <span class="slider round"></span>
             </label>
-            <script type="text/javascript" src="src/popup.js"></script>
+
+            <label class="range">
+                <p>intensity: <span id="slider-value">100</span></p>
+                <input value="100" type="range" min="0" max="100" name="intensity" id="intensity-slider">
+            </label>
         </div>
+        <script type="text/javascript" src="src/popup.js"></script>
     </body>
 
 </html>

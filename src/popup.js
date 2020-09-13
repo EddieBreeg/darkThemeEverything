@@ -6,14 +6,15 @@ chrome.runtime.sendMessage({
 }); // asks for the extension status
 var tabEnabled=false; // default value
 var tabURL;
+var tabIntensity=1;
 sendToCurrentTab({
     type: "getTabInfo"
 }); // asks for current tab info
 
 var mainToggle = document.getElementById('main-switch');
 var secondToggle = document.getElementById('second-switch');
-console.log(extensionEnabled);
-console.log(tabEnabled);
+var intensitySlider = document.getElementById("intensity-slider");
+
 
 // event when the main switch is changed
 mainToggle.addEventListener("change", function(){
@@ -24,7 +25,8 @@ mainToggle.addEventListener("change", function(){
     });
     sendToCurrentTab({
         type: "toggle",
-        enabled: tabEnabled && extensionEnabled
+        enabled: tabEnabled && extensionEnabled,
+        intensity: tabIntensity
     });
 })
 // event when the second switch is changed
@@ -32,14 +34,32 @@ secondToggle.addEventListener('change', function(){
     tabEnabled = secondToggle.checked;
     sendToCurrentTab({
         type: "toggle",
-        enabled: tabEnabled && extensionEnabled
+        enabled: tabEnabled && extensionEnabled,
+        intensity: tabIntensity
     });
     chrome.runtime.sendMessage({
         type: "setTabStatus",
         url: tabURL,
-        enabled: tabEnabled
+        enabled: tabEnabled,
+        intensity: tabIntensity
     })
 })
+// event when slider is changed
+intensitySlider.oninput = function(){
+    document.getElementById('slider-value').innerHTML = this.value;
+    tabIntensity=this.value/100;
+    sendToCurrentTab({
+        type: "toggle",
+        enabled: tabEnabled && extensionEnabled,
+        intensity: tabIntensity
+    });
+    chrome.runtime.sendMessage({
+        type: "setTabStatus",
+        url: tabURL,
+        enabled: tabEnabled,
+        intensity: tabIntensity
+    })
+}
 
 mainToggle.checked = extensionEnabled;
 secondToggle.checked = tabEnabled;
@@ -63,15 +83,21 @@ function onMessage(message)
         // updates tab status
         tabEnabled=message.enabled;
         secondToggle.checked=tabEnabled;
+        intensitySlider.value=message.intensity*100;
+        tabIntensity=message.intensity;
+        document.getElementById("slider-value").innerHTML=message.intensity*100;
+        
         // toggle request for the tab
         sendToCurrentTab({
             type: "toggle",
-            enabled: extensionEnabled && tabEnabled
+            enabled: extensionEnabled && tabEnabled,
+            intensity: tabIntensity
         });
         chrome.runtime.sendMessage({
             type: "setTabStatus",
             url: tabURL,
-            enabled: tabEnabled
+            enabled: tabEnabled,
+            intensity: tabIntensity
         });
     }
 }
