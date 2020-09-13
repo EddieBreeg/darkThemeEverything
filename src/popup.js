@@ -1,7 +1,7 @@
-firefox.runtime.onMessage.addListener(onMessage);
+browser.runtime.onMessage.addListener(onMessage);
 
 var extensionEnabled=true; // default value
-firefox.runtime.sendMessage({
+browser.runtime.sendMessage({
     type: "getExtensionStatus"
 }); // asks for the extension status
 var tabEnabled=false; // default value
@@ -18,7 +18,7 @@ console.log(tabEnabled);
 // event when the main switch is changed
 mainToggle.addEventListener("change", function(){
     extensionEnabled=mainToggle.checked;
-    firefox.runtime.sendMessage({
+    browser.runtime.sendMessage({
         type: "setExtensionStatus",
         enabled: extensionEnabled
     });
@@ -34,7 +34,7 @@ secondToggle.addEventListener('change', function(){
         type: "toggle",
         enabled: tabEnabled && extensionEnabled
     });
-    firefox.runtime.sendMessage({
+    browser.runtime.sendMessage({
         type: "setTabStatus",
         url: tabURL,
         enabled: tabEnabled
@@ -68,7 +68,7 @@ function onMessage(message)
             type: "toggle",
             enabled: extensionEnabled && tabEnabled
         });
-        firefox.runtime.sendMessage({
+        browser.runtime.sendMessage({
             type: "setTabStatus",
             url: tabURL,
             enabled: tabEnabled
@@ -79,7 +79,7 @@ function onMessage(message)
 // sends a message to the currently selected tab
 function sendToCurrentTab(message)
 {
-    firefox.tabs.query({active: true, currentWindow: true}, tabs => {
-        firefox.tabs.sendMessage(tabs[0].id, message);
+    browser.tabs.query({active: true, currentWindow: true}, tabs => {
+        browser.tabs.sendMessage(tabs[0].id, message);
     });
 }
