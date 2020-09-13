@@ -5,6 +5,7 @@ let extensionEnabled = true;
 function onMessage(message, sender, reply)
 {
     console.log(message);
+    // when a tab asks for status information on load
     if(message.type==="amIEnabled")
     {
         if(localStorage.key(message.url)==undefined)
@@ -19,6 +20,7 @@ function onMessage(message, sender, reply)
         sendToCurrentTab(response);
         console.log("message sent");
     }
+    // extension status request from popup
     else if(message.type==="getExtensionStatus")
     {
         firefox.runtime.sendMessage({
@@ -26,6 +28,7 @@ function onMessage(message, sender, reply)
             enabled: extensionEnabled
         });
     }
+    // tab information
     else if(message.type==="tabInfo")
     {
         var response={
@@ -35,10 +38,12 @@ function onMessage(message, sender, reply)
         };
         firefox.runtime.sendMessage(response);
     }
+    // updates extension status
     else if(message.type==="setExtensionStatus")
     {
         extensionEnabled=message.enabled;
     }
+    // updates tab status
     else if(message.type==="setTabStatus")
     {
         localStorage[message.url] = message.enabled;

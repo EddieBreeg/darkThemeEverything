@@ -30,7 +30,7 @@ function toggleFilter(enabled)
     if(enabled){filter = "invert(1) hue-rotate(180deg)";}
 
     document.querySelector(':root').style['filter'] = filter;
-    let notInvertedTags = ['img', 'video'];
+    let notInvertedTags = ['img', 'video', 'svg', "iframe[class=youtube-video]"];
 
     for(e of notInvertedTags)
     {

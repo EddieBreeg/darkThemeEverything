@@ -40,6 +40,7 @@ secondToggle.addEventListener('change', function(){
         enabled: tabEnabled
     })
 })
+
 mainToggle.checked = extensionEnabled;
 secondToggle.checked = tabEnabled;
 
@@ -48,16 +49,20 @@ function onMessage(message)
     console.log(message);
     if(message.type==="extensionStatus")
     {
+        // sets the extension status
         extensionEnabled = message.enabled;
     }
     else if(message.type==="tabInfo")
     {
+        // current tab url
         tabURL=message.url;
     }
     else if(message.type==="tabStatus")
     {
+        // updates tab status
         tabEnabled=message.enabled;
         secondToggle.checked=tabEnabled;
+        // toggle request for the tab
         sendToCurrentTab({
             type: "toggle",
             enabled: extensionEnabled && tabEnabled
@@ -70,6 +75,7 @@ function onMessage(message)
     }
 }
 
+// sends a message to the currently selected tab
 function sendToCurrentTab(message)
 {
     chrome.tabs.query({active: true, currentWindow: true}, tabs => {
