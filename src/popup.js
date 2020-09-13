@@ -51,6 +51,7 @@ function onMessage(message)
     {
         // sets the extension status
         extensionEnabled = message.enabled;
+        mainToggle.checked=extensionEnabled;
     }
     else if(message.type==="tabInfo")
     {
