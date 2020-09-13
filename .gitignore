@@ -1,1 +1,4 @@
-img/
+*.afdesign
+*.zip
+popup.png
+icon.png
